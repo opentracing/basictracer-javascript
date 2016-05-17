@@ -1,0 +1,81 @@
+'use strict'
+
+import uuid from 'node-uuid'
+import clone from 'lodash.clone'
+import Long from 'long'
+
+// Implement https://github.com/opentracing/opentracing-javascript/blob/master/src%2Fspan.js
+export default class BasicSpan {
+    constructor(tracer, {operationName, parent, tags, startTime = Date.now()}) {
+        this._tracer = tracer
+
+        this.operationName = operationName
+
+        if (parent) {
+            this.traceId = parent.traceId
+            this.spanId = BasicSpan.generateUUID()
+            this.parentId = parent.spanId
+            this.baggage = clone(parent.baggage)
+        } else {
+            this.traceId = BasicSpan.generateUUID()
+            this.spanId = BasicSpan.generateUUID()
+            this.parentId = this.spanId
+            this.baggage = {}
+        }
+        this.sampled = this._tracer._isSample(this, parent)
+
+        this.tags = clone(tags)
+
+        this.startTime = startTime
+    }
+
+    tracer() {
+        return this._tracer
+    }
+
+    setOperationName(name) {
+        this.operationName = name
+    }
+
+    setTag(key, value) {
+        if (!this.tags) {
+            this.tags = {}
+        }
+        this.tags[key] = value
+    }
+
+    addTags(keyValuePairs) {
+        for (let key in keyValuePairs) {
+            this.setTag(key, keyValuePairs[key])
+        }
+    }
+
+    setBaggageItem(key, value) {
+        this.baggage[key] = value
+    }
+
+    getBaggageItem(key) {
+        return this.baggage[key]
+    }
+
+    log({event, payload, timestamp = Date.now()}) {
+        if (!this.logs) {
+            this.logs = []
+        }
+        this.logs.push({
+            event,
+            payload,
+            timestamp,
+        })
+    }
+
+    finish(finishTime = Date.now()) {
+        this.duration = finishTime - this.startTime
+        this._tracer._record(this)
+    }
+
+    static generateUUID() {
+        let buffer = uuid.v4(null, new Buffer(8))
+        return new Long(buffer.readUInt32LE(), buffer.readUInt32LE(4), true)
+    }
+}
