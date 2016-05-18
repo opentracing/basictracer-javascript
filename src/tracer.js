@@ -26,10 +26,15 @@ export default class BasicTracer {
         this._recorder = recorder || new DefaultRecorder()
         this._binaryPropagator = new BinaryPropagator(this)
         this._textPropagator = new TextMapPropagator(this)
+        this._httpPropagator = new TextMapPropagator(this, 'x-')
     }
 
     setInterface(inf) {
         this._interface = inf
+
+        // Little hack because interface don't expose a way to extend supported
+        // carrier format
+        this._interface.FORMAT_HTTP_HEADER = 'http_header'
     }
 
     startSpan(fields) {
