@@ -2,7 +2,7 @@
   "name": "basictracer",
   "description": "The Javascript implementation of the BasicTracer referrence implementation",
   "repository": "opentracing/basictracer-javascript",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "dist/index.js",
   "keywords": [
     "opentracing"
