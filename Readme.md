@@ -28,7 +28,7 @@ See [tests](src/__tests__/index-test.js) for more example.
 
 ## Data Model
 
-    type Span {
+    type BasicSpan {
         operationName: String
         startTime: Number
         duration: Number
