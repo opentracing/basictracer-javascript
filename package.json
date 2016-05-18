@@ -2,7 +2,7 @@
   "name": "basictracer",
   "description": "The Javascript implementation of the BasicTracer referrence implementation",
   "repository": "opentracing/basictracer-javascript",
-  "version": "0.1.3",
+  "version": "0.2.2",
   "main": "dist/index.js",
   "keywords": [
     "opentracing"
@@ -20,7 +20,6 @@
     "eslint-plugin-babel": "^3.2.0",
     "isparta": "^4.0.0",
     "mocha": "^2.4.5",
-    "opentracing": "^0.9.18",
     "should": "^8.3.1"
   },
   "license": "MIT",
@@ -28,6 +27,7 @@
     "debug": "^2.2.0",
     "lodash.clone": "^4.3.2",
     "long": "^3.1.0",
+    "opentracing": "^0.9.18",
     "node-uuid": "^1.4.7",
     "protobufjs": "^5.0.1"
   },

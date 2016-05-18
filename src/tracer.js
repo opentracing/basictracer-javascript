@@ -31,10 +31,6 @@ export default class BasicTracer {
 
     setInterface(inf) {
         this._interface = inf
-
-        // Little hack because interface don't expose a way to extend supported
-        // carrier format
-        this._interface.FORMAT_HTTP_HEADER = 'http_header'
     }
 
     startSpan(fields) {
