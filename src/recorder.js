@@ -28,9 +28,9 @@ export class DebuggingRecorder extends DefaultRecorder {
             tags: span.tags,
             logs: span.logs,
 
-            traceId: span.traceId.toString(16),
-            spanId: span.spanId.toString(16),
-            parentId: span.parentId.toString(16),
+            traceId: span.traceId.toString(),
+            spanId: span.spanId.toString(),
+            parentId: span.parentId.toString(),
             sampled: span.sampled,
             baggage: span.baggage,
         }))

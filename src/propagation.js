@@ -64,8 +64,8 @@ class TextMapPropagator {
     }
 
     inject(span, carrier) {
-        carrier[this.fieldNameTraceId] = span.traceId.toString(16)
-        carrier[this.fieldNameSpanId] = span.spanId.toString(16)
+        carrier[this.fieldNameTraceId] = span.traceId.toString()
+        carrier[this.fieldNameSpanId] = span.spanId.toString()
         carrier[this.fieldNameSampled] = String(span.sampled)
         for (let key in span.baggage) {
             carrier[this.prefixBaggage + key] = span.baggage[key]
@@ -79,10 +79,10 @@ class TextMapPropagator {
         let count = 0
         for (let field in carrier) {
             if (field === this.fieldNameTraceId) {
-                parent.traceId = Long.fromString(carrier[field], true, 16)
+                parent.traceId = Long.fromString(carrier[field], true)
                 count += 1
             } else if (field === this.fieldNameSpanId) {
-                parent.spanId = Long.fromString(carrier[field], true, 16)
+                parent.spanId = Long.fromString(carrier[field], true)
                 count += 1
             } else if (field === this.fieldNameSampled) {
                 if (carrier[field] !== 'true' &&
