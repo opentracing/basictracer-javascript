@@ -15,14 +15,15 @@ export default class BasicSpan {
             this.traceId = parent.traceId
             this.spanId = BasicSpan.generateUUID()
             this.parentId = parent.spanId
+            this.sampled = parent.sampled
             this.baggage = clone(parent.baggage)
         } else {
             this.traceId = BasicSpan.generateUUID()
             this.spanId = BasicSpan.generateUUID()
             this.parentId = this.spanId
+            this.sampled = this._tracer._isSampled(this)
             this.baggage = {}
         }
-        this.sampled = this._tracer._isSample(this, parent)
 
         this.tags = clone(tags)
 

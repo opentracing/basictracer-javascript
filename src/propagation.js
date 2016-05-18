@@ -2,6 +2,7 @@
 
 import path from 'path'
 
+import Long from 'long'
 import ProtoBuf from 'protobufjs'
 
 import BasicSpan from './span'
@@ -58,8 +59,8 @@ class TextMapPropagator {
     }
 
     inject(span, carrier) {
-        carrier[FIELD_NAME_TRACE_ID] = span.traceId
-        carrier[FIELD_NAME_SPAN_ID] = span.spanId
+        carrier[FIELD_NAME_TRACE_ID] = span.traceId.toString(16)
+        carrier[FIELD_NAME_SPAN_ID] = span.spanId.toString(16)
         carrier[FIELD_NAME_SAMPLED] = String(span.sampled)
         for (let key in span.baggage) {
             carrier[PREFIX_BAGGAGE + key] = span.baggage[key]
@@ -73,10 +74,10 @@ class TextMapPropagator {
         let count = 0
         for (let field in carrier) {
             if (field === FIELD_NAME_TRACE_ID) {
-                parent.traceId = carrier[field]
+                parent.traceId = Long.fromString(carrier[field], true, 16)
                 count += 1
             } else if (field === FIELD_NAME_SPAN_ID) {
-                parent.spanId = carrier[field]
+                parent.spanId = Long.fromString(carrier[field], true, 16)
                 count += 1
             } else if (field === FIELD_NAME_SAMPLED) {
                 if (carrier[field] !== 'true' &&

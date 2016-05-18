@@ -2,8 +2,8 @@
 
 import BasicSpan from './span'
 import {TextMapPropagator, BinaryPropagator} from './propagation'
-import Sampler from './sampler'
-import Recorder from './recorder'
+import {DefaultSampler} from './sampler'
+import {DefaultRecorder} from './recorder'
 
 // Implement https://github.com/opentracing/opentracing-javascript/blob/master/src/tracer.js
 export default class BasicTracer {
@@ -12,18 +12,18 @@ export default class BasicTracer {
      * @param  {Object} options
      *         Optional associative array of fields.
      *         - `sampler` {Sampler} Optional object with `isSample` method, the
-     *             method provided with current span and parent span as
-     *             arguments, return Boolean value indicate whether should take
-     *             current span as sample. See src/sample.js as example.
+     *             method provided with current span as arguments, return
+     *             Boolean value indicate whether should take current span
+     *             as sample. See src/sample.js for example.
      *         - `recorder` {Recorder} Optional object with `record` method, the
      *             method take span and do whatever required to record a span.
-     *             See src/recorder.js as example.
+     *             See src/recorder.js for example.
      *
      * @return {BasicTracer}
      */
     constructor({sampler, recorder} = {}) {
-        this._sampler = sampler || new Sampler()
-        this._recorder = recorder || new Recorder()
+        this._sampler = sampler || new DefaultSampler()
+        this._recorder = recorder || new DefaultRecorder()
         this._binaryPropagator = new BinaryPropagator(this)
         this._textPropagator = new TextMapPropagator(this)
     }
@@ -64,8 +64,8 @@ export default class BasicTracer {
         return span
     }
 
-    _isSample(span, parent) {
-        return this._sampler.isSample(span, parent)
+    _isSampled(span, parent) {
+        return this._sampler.isSampled(span, parent)
     }
     _record(span) {
         this._recorder.record(span)

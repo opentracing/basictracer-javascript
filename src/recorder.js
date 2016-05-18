@@ -1,4 +1,13 @@
-export default class Recorder {
+export class DefaultRecorder {
+    /**
+     * @param  {Span} Span to record.
+     */
+    record(span) { // eslint-disable-line
+
+    }
+}
+
+export class DebuggingRecorder extends DefaultRecorder {
     record(span) {
         console.log(JSON.stringify({ // eslint-disable-line
             operationName: span.operationName,
