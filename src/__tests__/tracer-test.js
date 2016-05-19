@@ -65,7 +65,11 @@ describe('Tracer', () => {
         let parentSpan = tracer.startSpan({operationName: OPERATION_NAME})
         let span = tracer.startSpan({
             operationName: ANOTHER_OPERATION_NAME,
-            parent: parentSpan,
+            parent: {
+                imp() {
+                    return parentSpan
+                },
+            },
         })
         should(span.traceId.equals(parentSpan.traceId)).be.ok()
         should(span.spanId.equals(parentSpan.spanId)).be.not.ok()
