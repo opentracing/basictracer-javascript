@@ -8,7 +8,6 @@ let tracer = new Tracer()
 tracer.setInterface(inf)
 let textMapPropagator = new TextMapPropagator(tracer)
 let binaryPropagator = new BinaryPropagator(tracer)
-let httpHeaderPropagator = new TextMapPropagator(tracer, 'x-')
 
 const OPERATION_NAME = 'basictracer-test'
 
@@ -75,19 +74,5 @@ describe('TextMapPropagator', () => {
         should(() => {
             textMapPropagator.join(OPERATION_NAME, carrierInvalidSample)
         }).throw()
-    })
-
-    it('should support x- http header format', () => {
-        let rootSpan = tracer.startSpan({operationName: OPERATION_NAME})
-        let carrier = {}
-        httpHeaderPropagator.inject(rootSpan, carrier)
-        Object.keys((key) => {
-            should(key.indexOf('x-')).eql(0)
-        })
-        let span = httpHeaderPropagator.join(OPERATION_NAME, carrier)
-        should(span.traceId.equals(rootSpan.traceId)).be.ok()
-        should(span.spanId.equals(rootSpan.spanId)).be.not.ok()
-        should(span.parentId.equals(rootSpan.spanId)).be.ok()
-        should(span.sampled).eql(rootSpan.sampled)
     })
 })

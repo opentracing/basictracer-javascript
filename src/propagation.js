@@ -54,21 +54,16 @@ const FIELD_NAME_SAMPLED = PREFIX_TRACER_STATE + 'sampled'
 const FIELD_COUNT = 3
 
 class TextMapPropagator {
-    constructor(tracer, prefix = '') {
+    constructor(tracer) {
         this._tracer = tracer
-
-        this.prefixBaggage = prefix + PREFIX_BAGGAGE
-        this.fieldNameTraceId = prefix + FIELD_NAME_TRACE_ID
-        this.fieldNameSpanId = prefix + FIELD_NAME_SPAN_ID
-        this.fieldNameSampled = prefix + FIELD_NAME_SAMPLED
     }
 
     inject(span, carrier) {
-        carrier[this.fieldNameTraceId] = span.traceId.toString()
-        carrier[this.fieldNameSpanId] = span.spanId.toString()
-        carrier[this.fieldNameSampled] = String(span.sampled)
+        carrier[FIELD_NAME_TRACE_ID] = span.traceId.toString()
+        carrier[FIELD_NAME_SPAN_ID] = span.spanId.toString()
+        carrier[FIELD_NAME_SAMPLED] = String(span.sampled)
         for (let key in span.baggage) {
-            carrier[this.prefixBaggage + key] = span.baggage[key]
+            carrier[PREFIX_BAGGAGE + key] = span.baggage[key]
         }
     }
 
@@ -78,13 +73,13 @@ class TextMapPropagator {
         }
         let count = 0
         for (let field in carrier) {
-            if (field === this.fieldNameTraceId) {
+            if (field === FIELD_NAME_TRACE_ID) {
                 parent.traceId = Long.fromString(carrier[field], true)
                 count += 1
-            } else if (field === this.fieldNameSpanId) {
+            } else if (field === FIELD_NAME_SPAN_ID) {
                 parent.spanId = Long.fromString(carrier[field], true)
                 count += 1
-            } else if (field === this.fieldNameSampled) {
+            } else if (field === FIELD_NAME_SAMPLED) {
                 if (carrier[field] !== 'true' &&
                     carrier[field] !== 'false') {
                     throw new Error('Trace corrupted, sampled should be type ' +
@@ -92,8 +87,8 @@ class TextMapPropagator {
                 }
                 parent.sampled = Boolean(carrier[field])
                 count += 1
-            } else if (field.indexOf(this.prefixBaggage) === 0) {
-                parent.baggage[field.slice(this.prefixBaggage.length)] =
+            } else if (field.indexOf(PREFIX_BAGGAGE) === 0) {
+                parent.baggage[field.slice(PREFIX_BAGGAGE.length)] =
                     carrier[field]
             }
         }
