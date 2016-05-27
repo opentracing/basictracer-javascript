@@ -26,7 +26,6 @@ export default class BasicTracer {
         this._recorder = recorder || new DefaultRecorder()
         this._binaryPropagator = new BinaryPropagator(this)
         this._textPropagator = new TextMapPropagator(this)
-        this._httpPropagator = new TextMapPropagator(this, 'x-')
     }
 
     setInterface(inf) {
