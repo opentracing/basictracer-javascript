@@ -1,6 +1,6 @@
 # basictracer-javascript [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Test coverage][coveralls-image]][coveralls-url]
 
-> The Javascript implementation of the BasicTracer referrence implementation
+> The Javascript implementation of the BasicTracer reference implementation
 
 ## Installation
 
@@ -46,7 +46,8 @@ See [tests](src/__tests__/index-test.js) for more example.
 
 ## License
 
-MIT
+[MIT License](./LICENSE).
+
 
 [npm-image]: https://img.shields.io/npm/v/basictracer.svg?style=flat
 [npm-url]: https://npmjs.org/package/basictracer
