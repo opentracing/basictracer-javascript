@@ -46,7 +46,8 @@ See [tests](src/__tests__/index-test.js) for more example.
 
 ## License
 
-MIT
+[MIT License](./LICENSE).
+
 
 [npm-image]: https://img.shields.io/npm/v/basictracer.svg?style=flat
 [npm-url]: https://npmjs.org/package/basictracer
