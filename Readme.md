@@ -1,6 +1,6 @@
 # basictracer-javascript [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Test coverage][coveralls-image]][coveralls-url]
 
-> The Javascript implementation of the BasicTracer referrence implementation
+> The Javascript implementation of the BasicTracer reference implementation
 
 ## Installation
 
