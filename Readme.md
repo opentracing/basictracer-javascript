@@ -44,9 +44,9 @@ See [tests](src/__tests__/index-test.js) for more example.
 
 `Long` type represent by [long.js](https://github.com/dcodeIO/long.js)
 
-## License
+# Licensing
 
-[MIT License](./LICENSE).
+[Apache 2.0 License](./LICENSE).
 
 
 [npm-image]: https://img.shields.io/npm/v/basictracer.svg?style=flat
